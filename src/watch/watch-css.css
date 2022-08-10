@@ -1,0 +1,25 @@
+.dark-mode {
+    color: #202020;
+    background-color: #f5f6f6;
+}
+
+.light-mode {
+    background-color: #202020;
+    color: #f5f6f6;
+}
+
+.dark-time {
+    color: #40E0D0;
+}
+
+.light-time {
+    color: #f5f6f6;
+}
+
+.dark-body {
+    background-color: #202020;
+}
+
+.light-body {
+    background-color: #f5f6f6;
+}
