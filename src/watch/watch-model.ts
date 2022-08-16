@@ -47,12 +47,24 @@ export class WatchModel {
         this.currentTime = currentTime;
     }
 
+    getHours(): number {
+        return this.currentTime.getHours();
+    }
+
+    getMinutes(): number {
+        return this.currentTime.getMinutes();
+    }
+
     setHours(hours: number) {
         this.currentTime.setHours(hours);
     }
 
     setMinutes(minutes: number) {
         this.currentTime.setMinutes(minutes);
+    }
+
+    setSeconds(seconds: number) {
+        this.currentTime.setSeconds(seconds);
     }
 
     getIsIncreaseEnabled(): boolean {

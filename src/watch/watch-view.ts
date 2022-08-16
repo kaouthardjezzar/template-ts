@@ -1,4 +1,4 @@
-import { LightMode, WatchController, WatchModel } from './';
+import { LightMode, Mode, WatchController, WatchModel } from './';
 import { Button } from '../components'
 
 import './watch-css.css';
@@ -32,10 +32,31 @@ export class WatchView {
         const increaseButton = this.increaseButton.buildContent('Increase');
         const resetButton = this.resetButton.buildContent('Reset');
 
+        setInterval(() => {
+            let currentDate: Date = new Date();
+            if (this.watchModel.getMode() === Mode.NOTHING) {
+                this.watchModel.setCurrentTime(currentDate);
+                this.displayTime();
+            }
+            if (this.watchModel.getMode() === Mode.HOUR_INCREASE) {
+                this.watchModel.setMinutes(currentDate.getMinutes());
+                this.watchModel.setSeconds(currentDate.getSeconds());
+                if ((currentDate.getMinutes()) === 0 && (currentDate.getSeconds() === 0)){
+                    this.watchModel.setHours(this.watchModel.getHours() + 1);
+                }
+                this.displayTime();
+            }
+            if (this.watchModel.getMode() === Mode.MINUTES_INCREASE)  {
+                this.watchModel.setHours(this.watchModel.getHours());
+                this.watchModel.setSeconds(currentDate.getSeconds());
+                if ((currentDate.getSeconds() === 0)){
+                    this.watchModel.setMinutes(this.watchModel.getMinutes() + 1);
+                }
+                this.displayTime();
+            }
+            
+        }, 1000);
         
-        this.timeContainer.innerText = `${this.watchModel.getCurrentTime().getHours().toString()} : ${
-            this.watchModel.getCurrentTime().getMinutes().toString()} : ${this.watchModel.getCurrentTime().getSeconds().toString()
-        }`;
         this.watchContainer.style.width = "200px";
         this.watchContainer.appendChild(this.timeContainer);
         this.watchContainer.appendChild(modeButton);
@@ -56,9 +77,6 @@ export class WatchView {
 
         this.increaseButton.getButton().addEventListener('click', () => {
             this.watchController.increaseTime();
-            this.timeContainer.innerText = `${this.watchModel.getCurrentTime().getHours().toString()} : ${
-                this.watchModel.getCurrentTime().getMinutes().toString()} : ${this.watchModel.getCurrentTime().getSeconds().toString()
-            }`;
         });
 
         this.lightButton.getButton().addEventListener('click', () => {
@@ -72,14 +90,18 @@ export class WatchView {
 
         this.resetButton.getButton().addEventListener('click', () => {
             this.watchController.resetTime();
-            this.timeContainer.innerText = `${this.watchModel.getCurrentTime().getHours().toString()} : ${
-                this.watchModel.getCurrentTime().getMinutes().toString()} : ${this.watchModel.getCurrentTime().getSeconds().toString()
-            }`;
         });
 
 
         return this.watchContainer
     }
+
+    private displayTime(): void {
+        this.timeContainer.innerText = `${this.watchModel.getCurrentTime().getHours().toString()} : ${
+            this.watchModel.getCurrentTime().getMinutes().toString()} : ${this.watchModel.getCurrentTime().getSeconds().toString()
+        }`;
+    }
+
     private applyDarkMode() {
         this.watchContainer.classList.add('dark-mode');
         this.watchContainer.classList.remove('light-mode');

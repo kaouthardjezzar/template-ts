@@ -7,8 +7,6 @@ export class WatchController {
     // Constructor
     constructor(watchModel: WatchModel) {
         this.watchModel = watchModel;
-        const currentDate: Date = new Date();
-        this.watchModel.setCurrentTime(currentDate);
     }
 
     changeMode(): void {
